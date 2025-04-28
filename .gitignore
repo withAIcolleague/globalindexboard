@@ -1,7 +1,0 @@
-# Ignore everything by default
-/*
-
-# But NOT these files/folders (for Render deployment)
-!economic-dashboard/
-!.gitignore
-!README.md
