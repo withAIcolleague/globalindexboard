@@ -6,7 +6,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "Welcome to the Global Index Board API!"
+    # 기존 메시지 대신 FRED 데이터 반환
+    return fred_dates()
 
 FRED_API_KEY = "a80189315bd5dcab43e2a94caffb68df"
 FRED_SERIES = {
