@@ -1,6 +1,8 @@
 import requests
 from flask import Flask, jsonify
 import datetime
+from collections import OrderedDict
+import json
 
 app = Flask(__name__)
 
@@ -37,7 +39,7 @@ def get_next_release(series_id):
 
 @app.route('/api/fred-dates')
 def fred_dates():
-    result = {}
+    result = OrderedDict()  # 순서를 유지하기 위해 OrderedDict 사용
     for key, series_id in FRED_SERIES.items():
         url = f"https://api.stlouisfed.org/fred/series/observations?series_id={series_id}&api_key={FRED_API_KEY}&file_type=json"
         r = requests.get(url)
@@ -53,7 +55,10 @@ def fred_dates():
                 result[key] = {"prev": None, "next": None}
         else:
             result[key] = {"prev": None, "next": None}
-    return jsonify(result)
+    return app.response_class(
+        response=json.dumps(result, indent=4),  # Pretty Print JSON
+        mimetype='application/json'
+    )
 
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
